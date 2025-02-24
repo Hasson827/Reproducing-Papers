@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# 创建 Datasets 文件夹（如果不存在）
-mkdir -p Datasets
 cd Datasets
 
 # ✅ 下载 MNIST 数据集 (使用 pytorch 自动下载)
@@ -47,4 +45,57 @@ else
     echo "✅ tiny-imagenet-200 数据集已存在，跳过下载。"
 fi
 
+# 设置数据集路径
+ZIP_FILE="PhC-C2DH-U373_train.zip"
+EXTRACT_DIR="PhC-U373/train"
+
+# 检查压缩包是否存在
+if [ -f "$ZIP_FILE" ]; then
+    echo "找到数据集压缩包：$ZIP_FILE"
+else
+    echo "未找到 $ZIP_FILE,请检查路径是否正确。"
+    exit 1
+fi
+
+# 创建解压目录
+mkdir -p "$EXTRACT_DIR"
+
+# 解压数据集
+echo "正在解压数据集到 $EXTRACT_DIR ..."
+unzip -q "$ZIP_FILE" -d "$EXTRACT_DIR"
+
+# 检查解压是否成功
+if [ $? -eq 0 ]; then
+    echo "✅ 训练集解压完成，数据保存在：$EXTRACT_DIR"
+else
+    echo "❌ 训练集解压失败，请检查压缩包是否损坏。"
+    exit 1
+fi
+
+# 设置数据集路径
+ZIP_FILE="PhC-C2DH-U373_test.zip"
+EXTRACT_DIR="PhC-U373/test"
+
+# 检查压缩包是否存在
+if [ -f "$ZIP_FILE" ]; then
+    echo "找到数据集压缩包：$ZIP_FILE"
+else
+    echo "未找到 $ZIP_FILE,请检查路径是否正确。"
+    exit 1
+fi
+
+# 创建解压目录
+mkdir -p "$EXTRACT_DIR"
+
+# 解压数据集
+echo "正在解压数据集到 $EXTRACT_DIR ..."
+unzip -q "$ZIP_FILE" -d "$EXTRACT_DIR"
+
+# 检查解压是否成功
+if [ $? -eq 0 ]; then
+    echo "✅ 测试集解压完成，数据保存在：$EXTRACT_DIR"
+else
+    echo "❌ 测试集解压失败，请检查压缩包是否损坏。"
+    exit 1
+fi
 echo "🎉 所有数据集已成功下载并准备好！"
